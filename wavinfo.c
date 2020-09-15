@@ -63,7 +63,7 @@ void imprimir_cabecalho(audio_t *audio)
     printf("riff size      (4 bytes): %" PRIu32 "\n", audio->RIFF.ChunkSize);
     printf("wave tag       (4 bytes): \"%.4s\"\n", audio->RIFF.Format);
 
-    printf("form tag       (4 bytes): \"%.3s\"\n", audio->fmt.SubChunk1ID);
+    printf("form tag       (4 bytes): \"%.4s\"\n", audio->fmt.SubChunk1ID);
     printf("fmt_size       (4 bytes): %" PRIu32 "\n", audio->fmt.SubChunk1Size);
     printf("audio_format   (2 bytes): %" PRIu16 "\n", audio->fmt.AudioFormat);
     printf("num_channels   (2 bytes): %" PRIu16 "\n", audio->fmt.NrChannels);
