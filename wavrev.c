@@ -16,22 +16,24 @@ int main(int argc, char **argv)
     audio_t *audio;
 
     tratar_argumentos(argc, argv, ENTRADA, SAIDA);
+
     audio = ler_audio(ENTRADA);
 
     reverter_audio(audio);
 
     enviar_audio(SAIDA, audio);
-    fechar_streams(ENTRADA, SAIDA);
 
+    fechar_streams(ENTRADA, SAIDA);
     liberar_audio(audio);
 
     return 0;
 }
 
+/* Tratar os argumentos da linha de comando */
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA)
 {
     int opt;
-    while ((opt = getopt(argc, argv, "i:o:l:")) != -1)
+    while ((opt = getopt(argc, argv, "i:o:")) != -1)
     {
         switch (opt)
         {
@@ -62,6 +64,7 @@ void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA)
     }
 }
 
+/* Inverte o local de dois samples de audio */
 void trocar_samples(int16_t *sampleA, int16_t *sampleB)
 {
     int16_t aux;
@@ -71,28 +74,9 @@ void trocar_samples(int16_t *sampleA, int16_t *sampleB)
     *sampleB = aux;
 }
 
+/* Reverte todo o audio, indepdendentemente do número de canais */
 void reverter_audio(audio_t *audio)
 {
-    // switch (audio->fmt.NrChannels)
-    // {
-    // case 1:
-    //     for (int i = 0; i < audio->tamanho / 2; i++)
-    //     {
-    //         trocar_samples(&audio->dados[i], &audio->dados[audio->tamanho - 1 - i]);
-    //     }
-    //     break;
-    // case 2:
-    //     for (int i = 0; i < audio->tamanho / 2; i += 2)
-    //     {
-    //         trocar_samples(&audio->dados[i], &audio->dados[audio->tamanho - 1 - (i + 1)]); /* Canal esquerdo */
-    //         trocar_samples(&audio->dados[i + 1], &audio->dados[audio->tamanho - 1 - (i)]); /* Canal direito  */
-    //     }
-    //     break;
-    // default:
-    //     perror("Use apenas áudios com 1 ou 2 canais\n");
-    //     exit(1);
-    // }
-
     int nrChannels = audio->fmt.NrChannels;     /*Nr de canais*/
     int tamanho = audio->tamanho;               /*Tamanho do audio*/
     int iteracoes = (tamanho / nrChannels) / 2; /*Quantidade de trocas por canal*/
@@ -107,4 +91,3 @@ void reverter_audio(audio_t *audio)
             trocar_samples(&audio->dados[index1], &audio->dados[index2]);
         }
 }
-

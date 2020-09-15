@@ -28,6 +28,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
+/* Tratar os argumentos da linha de comando */
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA, float *level)
 {
     int opt;

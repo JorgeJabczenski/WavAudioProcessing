@@ -15,22 +15,24 @@ int main(int argc, char **argv)
     audio_t *audio;
 
     tratar_argumentos(argc, argv, ENTRADA, SAIDA);
+
     audio = ler_audio(ENTRADA);
 
     normalizar_volume(audio);
 
     enviar_audio(SAIDA, audio);
-    fechar_streams(ENTRADA, SAIDA);
 
+    fechar_streams(ENTRADA, SAIDA);
     liberar_audio(audio);
 
     return 0;
 }
 
+/* Tratar os argumentos da linha de comando */
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA)
 {
     int opt;
-    while ((opt = getopt(argc, argv, "i:o:l:")) != -1)
+    while ((opt = getopt(argc, argv, "i:o:")) != -1)
     {
         switch (opt)
         {
@@ -61,6 +63,7 @@ void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA)
     }
 }
 
+/* Aumenta o volume para seu máximo sem causar clipping */
 void normalizar_volume(audio_t *audio)
 {
     int16_t maior = abs(audio->dados[0]);

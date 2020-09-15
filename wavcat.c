@@ -19,6 +19,7 @@ int main(int argc, char **argv)
     audio = tratar_varios_arquivos(argc, argv, concatenar_audios);
 
     enviar_audio(SAIDA, audio);
+    
     fechar_streams(ENTRADA, SAIDA);
     liberar_audio(audio);
 

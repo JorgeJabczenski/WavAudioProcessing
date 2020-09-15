@@ -82,9 +82,11 @@ int conferir_estereo(audio_t *audio)
     return 0;
 }
 
+/* Aplica um efeito de estéreo amplificado, que dá uma sensação de ambientes abertos */
 void estereo_amplificado(audio_t *audio, float k)
 {
 
+    /* Verifica se é possivel aplicar o efeito no áudio */
     if (!conferir_estereo(audio))
     {
         fprintf(stderr, "O áudio deve ser estéreo (possuir 2 canais)");
@@ -93,10 +95,17 @@ void estereo_amplificado(audio_t *audio, float k)
 
     int16_t diff;
 
+    /* Podemos incrementar de dois em dois pois assume-se que em um áudio estéreo o número de amostras */
+    /* é sempre par */
     for (int i = 0; i < audio->tamanho; i += 2)
     {
-        diff = audio->dados[i + 1] - audio->dados[i];
-        audio->dados[i + 1] = op_com_limite(SOMA, audio->dados[i + 1], k * diff, VOLMAX);
-        audio->dados[i] = op_com_limite(SUBT, audio->dados[i], k * diff, VOLMAX);
+        diff = op_com_limite(SUBT, audio->dados[i + 1], audio->dados[i], VOLMAX);         /* Diferença entre os canais */
+        audio->dados[i + 1] = op_com_limite(SOMA, audio->dados[i + 1], k * diff, VOLMAX); /* Canal direito  */
+        audio->dados[i] = op_com_limite(SUBT, audio->dados[i], k * diff, VOLMAX);         /* Canal esquerdo */
+
+        /* O método acima é examante igual ao de baixo porém evita o clipping */
+        // diff = audio->dados[i + 1] -  audio->dados[i];
+        // audio->dados[i + 1] = audio->dados[i + 1] + (k * diff);
+        // audio->dados[i]     = audio->dados[i] -  (k * diff);
     }
 }

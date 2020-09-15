@@ -19,6 +19,7 @@ int main(int argc, char **argv)
     audio = tratar_varios_arquivos(argc, argv, mixar_audios);
 
     enviar_audio(SAIDA, audio);
+
     fechar_streams(ENTRADA, SAIDA);
     liberar_audio(audio);
 
@@ -51,7 +52,8 @@ void tratar_argumentos(int argc, char **argv, FILE *SAIDA)
     }
 }
 
-/* Soma dois audios e retorna o resultado no audioA */
+/* Soma amostra por amostra de dois audios e retorna o resultado no audioA */
+/* O audio resultante sempre tera o tamanho do maior audio enviado         */
 void mixar_audios(audio_t *a, audio_t *b)
 {
     int maiorTamanho, menorTamanho;
@@ -67,8 +69,8 @@ void mixar_audios(audio_t *a, audio_t *b)
         maiorTamanho = b->tamanho;
         menorTamanho = a->tamanho;
 
-        /* Aloca o espaço extra necessário no audio A caso necessário */
-        /* pois o resultado será colocado nele                        */
+        /* Aloca o espaço extra necessário no audio A    */
+        /* pois o resultado será colocado nele           */
         a->dados = realloc(a->dados, sizeof(int16_t) * maiorTamanho);
         if (!a->dados)
         {
