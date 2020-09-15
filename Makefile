@@ -6,10 +6,10 @@ objs  = acesso.o funwav.o wavinfo.o wavvol.o wavnorm.o wavrev.o wavecho.o wavwid
 
 all: $(progs)
 
-wavinfo: acesso.o wavinfo.o
+wavinfo: acesso.o funwav.o wavinfo.o
 wavvol : acesso.o funwav.o wavvol.o
 wavnorm: acesso.o funwav.o wavnorm.o
-wavrev : acesso.o wavrev.o
+wavrev : acesso.o funwav.o wavrev.o
 wavecho: acesso.o funwav.o wavecho.o
 wavwide: acesso.o funwav.o wavwide.o
 wavcat : acesso.o funwav.o wavcat.o

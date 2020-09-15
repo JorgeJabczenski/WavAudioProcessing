@@ -1,10 +1,12 @@
+// GRR20190372 Jorge Lucas Vicilli Jabczenski
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
 #include "acesso.h"
+#include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA);
-void printTag(char *tagName, char *tag, int tam);
 void imprimir_cabecalho(audio_t *audio);
 
 int main(int argc, char **argv)
@@ -54,23 +56,14 @@ void tratar_argumentos(int argc, char **argv, FILE *ENTRADA)
     }
 }
 
-/* Função Auxiliar do imprimir_cabecalho */
-void printTag(char *tagName, char *tag, int tam)
-{
-    printf("%s       (4 bytes): \"", tagName);
-    for (int i = 0; i < tam; i++)
-        putc(tag[i], stdout);
-    fprintf(stdout, "\"\n");
-}
-
 /* Imprime os Chuncks RIFF, fmt e data */
 void imprimir_cabecalho(audio_t *audio)
 {
-    printTag("riff tag", audio->RIFF.ChunkID, 4);
+    printf("riff tag       (4 bytes): \"%.4s\"\n", audio->RIFF.ChunkID);
     printf("riff size      (4 bytes): %" PRIu32 "\n", audio->RIFF.ChunkSize);
-    printTag("wave tag", audio->RIFF.Format, 4);
+    printf("wave tag       (4 bytes): \"%.4s\"\n", audio->RIFF.Format);
 
-    printTag("form tag", audio->fmt.SubChunk1ID, 4);
+    printf("form tag       (4 bytes): \"%.3s\"\n", audio->fmt.SubChunk1ID);
     printf("fmt_size       (4 bytes): %" PRIu32 "\n", audio->fmt.SubChunk1Size);
     printf("audio_format   (2 bytes): %" PRIu16 "\n", audio->fmt.AudioFormat);
     printf("num_channels   (2 bytes): %" PRIu16 "\n", audio->fmt.NrChannels);
@@ -79,7 +72,7 @@ void imprimir_cabecalho(audio_t *audio)
     printf("block_align    (2 bytes): %" PRIu16 "\n", audio->fmt.BlockAling);
     printf("bits_per_sample(2 bytes): %" PRIu16 "\n", audio->fmt.BitsPerSample);
 
-    printTag("data tag", audio->data.SubChunk2ID, 4);
+    printf("data tag       (4 bytes): \"%.4s\"\n", audio->data.SubChunk2ID);
     printf("data size      (4 bytes): %" PRIu32 "\n", audio->data.SubChunk2Size);
 
     printf("bytes per sample        : %" PRIu32 "\n", audio->fmt.BitsPerSample / 8);
