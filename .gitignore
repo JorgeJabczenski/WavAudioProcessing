@@ -1,3 +1,12 @@
+ wavinfo
+ wavvol
+ wavnorm
+ wavrev
+ wavecho
+ wavwide
+ wavcat
+ wavmix
+
 # Prerequisites
 *.d
 
