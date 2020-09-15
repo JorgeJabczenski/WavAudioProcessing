@@ -1,3 +1,5 @@
+// GRR20190372 Jorge Lucas Vicilli Jabczenski
+
 #include "funwav.h"
 #include "acesso.h"
 #include <stdio.h>
@@ -100,7 +102,7 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
         /* Conferir a compatibilidade antes de aplicar a função */
         if (!conferir_compatibilidade(audioA, audioB))
         {
-            fprintf(stderr, "Os arquivos nao são compatíveis\n");
+            fprintf(stderr, "O arquivo [%s] não é compatível \n", argv[index]);
             fclose(ENTRADA);
             liberar_audio(audioA);
             liberar_audio(audioB);
@@ -116,4 +118,10 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
     }
     fclose(ENTRADA);
     return (audioA);
+}
+
+void liberar_audio(audio_t *audio)
+{
+    free(audio->dados);
+    free(audio);
 }

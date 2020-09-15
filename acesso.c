@@ -53,14 +53,8 @@ void enviar_audio(FILE *SAIDA, audio_t *audio)
 
 void fechar_streams(FILE *ENTRADA, FILE *SAIDA)
 {
-    //if (ENTRADA != stdin)
-    fclose(ENTRADA);
-    //if (SAIDA != stdout)
-    fclose(SAIDA);
-}
-
-void liberar_audio(audio_t *audio)
-{
-    free(audio->dados);
-    free(audio);
+    if (ENTRADA != stdin)
+        fclose(ENTRADA);
+    if (SAIDA != stdout)
+        fclose(SAIDA);
 }

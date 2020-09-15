@@ -49,7 +49,7 @@ struct data_s
 };
 typedef struct data_s data_t;
 
-/* Estrutura do Audio WAV (48 bytes + dados)*/
+/* Estrutura do Audio WAV */
 struct audio_s
 {
     RIFF_t RIFF;
