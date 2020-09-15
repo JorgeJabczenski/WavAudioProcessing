@@ -15,13 +15,14 @@ int main(int argc, char **argv)
     float level = 1.0;
 
     tratar_argumentos(argc, argv, ENTRADA, SAIDA, &level);
+
     audio = ler_audio(ENTRADA);
 
     alterar_volume(audio, level);
 
     enviar_audio(SAIDA, audio);
-    fechar_streams(ENTRADA, SAIDA);
 
+    fechar_streams(ENTRADA, SAIDA);
     liberar_audio(audio);
 
     return 0;
