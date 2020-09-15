@@ -1,3 +1,5 @@
+# GRR20190372 Jorge Lucas Vicilli Jabczenski
+
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -pedantic
 
