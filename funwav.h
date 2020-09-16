@@ -3,7 +3,7 @@
 #ifndef __FUNWAV__
 #define __FUNWAV__
 
-#include "estruturas.h"
+#include "acesso.h"
 
 /* Código das operações usadas */
 #define SOMA 1
@@ -22,5 +22,8 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
 
 /* Libera os espaços alocados pelo audio */
 void liberar_audio(audio_t *audio);
+
+/* Fecha as streams de dados */
+void fechar_streams(FILE *ENTRADA, FILE *SAIDA);
 
 #endif 

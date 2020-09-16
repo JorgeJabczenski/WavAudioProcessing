@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <getopt.h>
 
+/* Realiza uma operação respeitando um valor máximo abs(limite)  */
 int16_t op_com_limite(int op, float a, float b, int16_t limite)
 {
     /* Os parâmetros são todos float por conta da 'promoção de variáveis' */
@@ -41,6 +42,7 @@ int16_t op_com_limite(int op, float a, float b, int16_t limite)
     }
 }
 
+/* Altera os samples de um audio para sample[i]*level  */
 void alterar_volume(audio_t *audio, float level)
 {
     for (int i = 0; i < audio->tamanho; i++)
@@ -66,6 +68,8 @@ static int conferir_compatibilidade(audio_t *a, audio_t *b)
     return (compativeis);
 }
 
+/* Aplica uma função em todos os arquivos que vierem por 
+argumento da linha de comando e retorna o resultado final*/
 audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, audio_t *))
 {
     FILE *ENTRADA;
@@ -120,8 +124,18 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
     return (audioA);
 }
 
+/* Libera os espaços alocados pelo audio */
 void liberar_audio(audio_t *audio)
 {
     free(audio->dados);
     free(audio);
+}
+
+/* Fecha as streams de dados */
+void fechar_streams(FILE *ENTRADA, FILE *SAIDA)
+{
+    if (ENTRADA != stdin)
+        fclose(ENTRADA);
+    if (SAIDA != stdout)
+        fclose(SAIDA);
 }
