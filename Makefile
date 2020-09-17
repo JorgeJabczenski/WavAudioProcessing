@@ -4,7 +4,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -std=c99 -pedantic
 
 progs = wavinfo wavvol wavnorm wavrev wavecho wavwide wavcat wavmix
-objs  = acesso.o funwav.o
+objs  = wav.o funwav.o
 
 all: $(progs)
 
@@ -17,8 +17,8 @@ wavwide: $(objs) wavwide.o
 wavcat : $(objs) wavcat.o
 wavmix : $(objs) wavmix.o
 
-acesso.o: acesso.h acesso.c 
-funwav.o: acesso.h acesso.c funwav.h funwav.c 
+wav.o: wav.h wav.c 
+funwav.o: wav.o funwav.h funwav.c 
 
 clean: 
 	rm *.o

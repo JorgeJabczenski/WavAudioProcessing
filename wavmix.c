@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "acesso.h"
+#include "wav.h"
 #include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *SAIDA);

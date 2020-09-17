@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "acesso.h"
+#include "wav.h"
 
 /* Lê o cabeçalho de um audio de uma stream ENTRADA */
 void ler_cabecalho(FILE *ENTRADA, audio_t *audio)
@@ -11,21 +11,21 @@ void ler_cabecalho(FILE *ENTRADA, audio_t *audio)
     int bytes_lidos;
 
     bytes_lidos = fread(&audio->RIFF, sizeof(RIFF_t), 1, ENTRADA);
-    if (bytes_lidos == 0 && ferror(ENTRADA))
+    if (bytes_lidos == 0)
     {
         fprintf(stderr, "Erro ao realizar a leitura do RIFF");
         exit(1);
     }
 
     bytes_lidos = fread(&audio->fmt, sizeof(fmt_t), 1, ENTRADA);
-    if (bytes_lidos == 0 && ferror(ENTRADA))
+    if (bytes_lidos == 0)
     {
         fprintf(stderr, "Erro ao realizar a leitura do fmt");
         exit(1);
     }
 
     bytes_lidos = fread(&audio->data, sizeof(data_t), 1, ENTRADA);
-    if (bytes_lidos == 0 && ferror(ENTRADA))
+    if (bytes_lidos == 0)
     {
         fprintf(stderr, "Erro ao realizar a leitura do data");
         exit(1);
@@ -48,7 +48,7 @@ void ler_dados(FILE *ENTRADA, audio_t *audio)
     }
 
     bytes_lidos = fread(audio->dados, sizeof(int16_t), audio->tamanho, ENTRADA);
-    if (bytes_lidos == 0 && ferror(ENTRADA))
+    if (bytes_lidos == 0)
     {
         fprintf(stderr, "Erro ao realizar a leitura do audio data");
         exit(1);

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "acesso.h"
+#include "wav.h"
 #include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *SAIDA);
@@ -30,7 +30,6 @@ int main(int argc, char **argv)
 void tratar_argumentos(int argc, char **argv, FILE *SAIDA)
 {
     int opt;
-
     while ((opt = getopt(argc, argv, "o:")) != -1)
     {
         switch (opt)

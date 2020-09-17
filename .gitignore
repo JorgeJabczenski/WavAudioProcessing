@@ -6,6 +6,7 @@ wavecho
 wavwide
 wavcat
 wavmix
+output*
 
 # Prerequisites
 *.d

@@ -3,7 +3,7 @@
 #ifndef __FUNWAV__
 #define __FUNWAV__
 
-#include "acesso.h"
+#include "wav.h"
 
 /* Código das operações usadas */
 #define SOMA 1

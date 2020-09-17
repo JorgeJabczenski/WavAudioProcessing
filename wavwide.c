@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "acesso.h"
+#include "wav.h"
 #include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA, float *k);
@@ -58,7 +58,7 @@ void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA, float 
             break;
 
         case 'l':
-            // Alterar volume
+            // Alterar o fator k
             *k = atof(optarg);
             if (*k < 0.0 || *k > 10.0)
             {
@@ -85,6 +85,7 @@ int conferir_estereo(audio_t *audio)
 /* Aplica um efeito de estéreo amplificado, que dá uma sensação de ambientes abertos */
 void estereo_amplificado(audio_t *audio, float k)
 {
+    float diff;
 
     /* Verifica se é possivel aplicar o efeito no áudio */
     if (!conferir_estereo(audio))
@@ -93,17 +94,16 @@ void estereo_amplificado(audio_t *audio, float k)
         exit(1);
     }
 
-    int16_t diff;
 
     /* Podemos incrementar de dois em dois pois assume-se que em um áudio estéreo o número de amostras */
     /* é sempre par */
     for (int i = 0; i < audio->tamanho; i += 2)
     {
-        diff = op_com_limite(SUBT, audio->dados[i + 1], audio->dados[i], VOLMAX);         /* Diferença entre os canais */
+        diff = audio->dados[i + 1] - audio->dados[i];         /* Diferença entre os canais */
         audio->dados[i + 1] = op_com_limite(SOMA, audio->dados[i + 1], k * diff, VOLMAX); /* Canal direito  */
         audio->dados[i] = op_com_limite(SUBT, audio->dados[i], k * diff, VOLMAX);         /* Canal esquerdo */
 
-        /* O método acima é examante igual ao de baixo porém evita o clipping */
+        /* O método acima é examante igual ao de baixo porém evita o overflow */
         // diff = audio->dados[i + 1] -  audio->dados[i];
         // audio->dados[i + 1] = audio->dados[i + 1] + (k * diff);
         // audio->dados[i]     = audio->dados[i] -  (k * diff);

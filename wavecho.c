@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "acesso.h"
+#include "wav.h"
 #include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA, float *level, int *delay);
@@ -102,7 +102,7 @@ void aplicar_eco(audio_t *audio, float level, int delay)
             int16_t amostraAnterior = op_com_limite(MULT, audio->dados[j - inicio], level, VOLMAX);
             audio->dados[j] = op_com_limite(SOMA, audio->dados[j], amostraAnterior, VOLMAX);
             
-            /* O método acima é examante igual ao de baixo porém evita o clipping */
+            /* O método acima é examante igual ao de baixo porém evita o overflow */
             // audio->dados[j] += audio->dados[j - inicio] * level;               
         }
     }

@@ -1,7 +1,7 @@
 // GRR20190372 Jorge Lucas Vicilli Jabczenski
 
 #include "funwav.h"
-#include "acesso.h"
+#include "wav.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -76,6 +76,7 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
     audio_t *audioA, *audioB;
 
     /* Confere se existem arquivos o suficiente para gerar uma concatenação */
+    /* (ou seja, pelo menos 2 arquivos) */
     if ((argc - optind) < 2)
     {
         fprintf(stderr, "Numero insuficiente de arquivos\n");
@@ -116,8 +117,7 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
         /* Aplica a função nos dois audios e retorna o resultado em audioA */
         func(audioA, audioB);
 
-        /* Feito dentro do loop para evitar memory leaks            */
-        /* já que a função "ler_audio" utiliza malloc e nao realloc */
+        /* Feito dentro do loop para evitar memory leaks */
         liberar_audio(audioB);
     }
     fclose(ENTRADA);

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
-#include "acesso.h"
+#include "wav.h"
 #include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA);
@@ -74,7 +74,7 @@ void trocar_samples(int16_t *sampleA, int16_t *sampleB)
     *sampleB = aux;
 }
 
-/* Reverte todo o audio, indepdendentemente do número de canais */
+/* Reverte todo o audio, levando em conta o número de canais */
 void reverter_audio(audio_t *audio)
 {
     int nrChannels = audio->fmt.NrChannels;     /*Nr de canais*/
@@ -91,3 +91,7 @@ void reverter_audio(audio_t *audio)
             trocar_samples(&audio->dados[index1], &audio->dados[index2]);
         }
 }
+
+/* Os cálculos utilizados para achar os indices foram achados primeiramente utilizando um canal
+ e depois montando tabelas verdades para 2 e 3 canais. Observando as tabelas foi possível encontrar
+ uma relação matemática entre os indices corretos e o número de canais */

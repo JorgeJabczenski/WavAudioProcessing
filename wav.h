@@ -1,24 +1,18 @@
 // GRR20190372 Jorge Lucas Vicilli Jabczenski
 
-#ifndef __ACESSO__
-#define __ACESSO__
+#ifndef __WAV__
+#define __WAV__
 
 /* Para poder usar os tipo int16_t e int32_t*/
 #include <inttypes.h>
 #include <stdio.h>
 
-/* Tamanho do cabeçalho em bytes */
-#define TAM_CAB 48
-#define TAM_RIFF 16
-#define TAM_FMT 24
-#define TAM_DATA 8
-
 /**************************************************************/
 
 /* Volume máximo (baseado no range de um inteiro de 16 bits) */
 //#define VOLMAX INT16_MAX /* 100% */
-//#define VOLMAX 32113 /* 98%  */
-#define VOLMAX 31130 /* 95%  */
+#define VOLMAX 32113 /* 98%  */
+//#define VOLMAX 31130 /* 95%  */
 //#define VOLMAX 29492 /* 90%  */
 
 /**************************************************************/
