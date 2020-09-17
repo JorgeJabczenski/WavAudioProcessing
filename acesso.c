@@ -76,9 +76,34 @@ audio_t *ler_audio(FILE *ENTRADA)
 /* Envia o audio para a SAIDA */
 void enviar_audio(FILE *SAIDA, audio_t *audio)
 {
-    fwrite(&audio->RIFF, sizeof(RIFF_t), 1, SAIDA);
-    fwrite(&audio->fmt, sizeof(fmt_t), 1, SAIDA);
-    fwrite(&audio->data, sizeof(data_t), 1, SAIDA);
-    fwrite(audio->dados, sizeof(int16_t), audio->tamanho, SAIDA);
-}
+    /* Após cada envio, verifica se ele foi bem sucedido */
+    int bytes_enviados;
 
+    bytes_enviados = fwrite(&audio->RIFF, sizeof(RIFF_t), 1, SAIDA);
+    if (bytes_enviados == 0)
+    {
+        fprintf(stderr, "Erro ao realizar a escrita do RIFF");
+        exit(1);
+    }
+
+    bytes_enviados = fwrite(&audio->fmt, sizeof(fmt_t), 1, SAIDA);
+    if (bytes_enviados == 0)
+    {
+        fprintf(stderr, "Erro ao realizar a escrita do fmt");
+        exit(1);
+    }
+
+    bytes_enviados = fwrite(&audio->data, sizeof(data_t), 1, SAIDA);
+    if (bytes_enviados == 0)
+    {
+        fprintf(stderr, "Erro ao realizar a escrita do data");
+        exit(1);
+    }
+
+    bytes_enviados = fwrite(audio->dados, sizeof(int16_t), audio->tamanho, SAIDA);
+    if (bytes_enviados == 0)
+    {
+        fprintf(stderr, "Erro ao realizar a escrita do audio data");
+        exit(1);
+    }
+}

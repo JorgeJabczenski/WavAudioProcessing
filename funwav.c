@@ -128,7 +128,9 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
 void liberar_audio(audio_t *audio)
 {
     free(audio->dados);
+    audio->dados = NULL;
     free(audio);
+    audio = NULL;
 }
 
 /* Fecha as streams de dados */
