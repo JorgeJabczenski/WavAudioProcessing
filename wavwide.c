@@ -94,7 +94,6 @@ void estereo_amplificado(audio_t *audio, float k)
         exit(1);
     }
 
-
     /* Podemos incrementar de dois em dois pois assume-se que em um áudio estéreo o número de amostras */
     /* é sempre par */
     for (int i = 0; i < audio->tamanho; i += 2)
@@ -103,7 +102,7 @@ void estereo_amplificado(audio_t *audio, float k)
         audio->dados[i + 1] = op_com_limite(SOMA, audio->dados[i + 1], k * diff, VOLMAX); /* Canal direito  */
         audio->dados[i] = op_com_limite(SUBT, audio->dados[i], k * diff, VOLMAX);         /* Canal esquerdo */
 
-        /* O método acima é examante igual ao de baixo porém evita o overflow */
+        /* O método acima é exatamente igual ao de baixo porém evita o overflow */
         // diff = audio->dados[i + 1] -  audio->dados[i];
         // audio->dados[i + 1] = audio->dados[i + 1] + (k * diff);
         // audio->dados[i]     = audio->dados[i] -  (k * diff);
