@@ -84,7 +84,7 @@ void reverter_audio(audio_t *audio)
     for (int i = 0; i < nrChannels; i++)
         for (int j = 0; j < iteracoes; j++)
         {
-            /* Calcula os indices certos para funcionar com qualquer número de canais */
+            /* Calcula os indexes certos para funcionar com qualquer número de canais */
             int index1 = i + (j * nrChannels);
             int index2 = (tamanho - (nrChannels - i)) - (j * nrChannels);
 

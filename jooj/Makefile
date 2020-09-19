@@ -6,7 +6,6 @@ CFLAGS = -Wall -Wextra -std=c99 -pedantic
 progs = wavinfo wavvol wavnorm wavrev wavecho wavwide wavcat wavmix
 objs  = wav.o funwav.o
 
-# Regra geral
 all: $(progs)
 
 wavinfo: $(objs) wavinfo.o

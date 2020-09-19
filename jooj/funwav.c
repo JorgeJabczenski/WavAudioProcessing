@@ -52,7 +52,9 @@ void alterar_volume(audio_t *audio, float level)
 /* Retorna 1 caso os arquivos de audio são compatíveis, 0 caso contrário */
 static int conferir_compatibilidade(audio_t *a, audio_t *b)
 {
-   /* Compara todos os valores necessários do cabeçalho */
+    /* Começa assumindo que os audios são compatíveis */
+    int compativeis = 1;
+
     if ((a->fmt.AudioFormat != b->fmt.AudioFormat) ||
         (a->fmt.NrChannels != b->fmt.NrChannels) ||
         (a->fmt.SampleRate != b->fmt.SampleRate) ||
@@ -60,10 +62,10 @@ static int conferir_compatibilidade(audio_t *a, audio_t *b)
         (a->fmt.BlockAling != b->fmt.BlockAling) ||
         (a->fmt.BitsPerSample != b->fmt.BitsPerSample))
     {
-        return 0;
+        compativeis = 0;
     }
 
-    return 1;
+    return (compativeis);
 }
 
 /* Aplica uma função em todos os arquivos que vierem por 
@@ -91,7 +93,7 @@ audio_t *tratar_varios_arquivos(int argc, char **argv, void(func)(audio_t *, aud
     }
     audioA = ler_audio(ENTRADA);
 
-    /* Ler arquivo por arquivo e ir aplicando a função passada */
+    /* Ler arquivo por arquivo e ir aplicando a função */
     for (int index = optind + 1; index < argc; index++)
     {
         ENTRADA = freopen(argv[index], "r", ENTRADA);

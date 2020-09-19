@@ -1,22 +1,21 @@
 // GRR20190372 Jorge Lucas Vicilli Jabczenski
 
-#ifndef __ESTRUTURAS__
-#define __ESTRUTURAS__
+#ifndef __WAV__
+#define __WAV__
 
 /* Para poder usar os tipo int16_t e int32_t*/
 #include <inttypes.h>
+#include <stdio.h>
 
-/* Tamanho do cabeçalho em bytes */
-#define TAM_CAB 48
-#define TAM_RIFF 16
-#define TAM_FMT 24
-#define TAM_DATA 8
+/**************************************************************/
 
 /* Volume máximo (baseado no range de um inteiro de 16 bits) */
 //#define VOLMAX INT16_MAX /* 100% */
-//#define VOLMAX 32113 /* 98%  */
-#define VOLMAX 31130 /* 95%  */
+#define VOLMAX 32113 /* 98%  */
+//#define VOLMAX 31130 /* 95%  */
 //#define VOLMAX 29492 /* 90%  */
+
+/**************************************************************/
 
 /* Chunk RIFF (16 bytes) */
 struct RIFF_s
@@ -59,5 +58,20 @@ struct audio_s
     int tamanho;
 };
 typedef struct audio_s audio_t;
+
+/**************************************************************/
+
+/* Lê o cabeçalho de um audio de uma stream ENTRADA */
+void ler_cabecalho(FILE *ENTRADA, audio_t *audio);
+
+/* Lê os dados de um audio de uma stream ENTRADA */
+void ler_dados(FILE *ENTRADA, audio_t *audio);
+
+/* Lê primeiro o cabeçalho e depois dos dados de um audio de uma stream ENTRADA */
+audio_t *ler_audio(FILE *ENTRADA);
+
+/* Envia o audio para a SAIDA */
+void enviar_audio(FILE *SAIDA, audio_t *audio);
+
 
 #endif

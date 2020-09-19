@@ -7,8 +7,7 @@
 #include "funwav.h"
 
 void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA);
-void trocar_samples(int16_t *sampleA, int16_t *sampleB);
-void reverter_audio(audio_t *audio);
+void normalizar_volume(audio_t *audio);
 
 int main(int argc, char **argv)
 {
@@ -19,7 +18,7 @@ int main(int argc, char **argv)
 
     audio = ler_audio(ENTRADA);
 
-    reverter_audio(audio);
+    normalizar_volume(audio);
 
     enviar_audio(SAIDA, audio);
 
@@ -58,40 +57,23 @@ void tratar_argumentos(int argc, char **argv, FILE *ENTRADA, FILE *SAIDA)
             break;
 
         default:
-            fprintf(stderr, "Usage: ./wavrev -i [FILE] -o [FILE]\n");
+            fprintf(stderr, "Usage: ./wavnorm -i [FILE] -o [FILE]\n");
             exit(1);
         }
     }
 }
 
-/* Inverte o local de dois samples de audio */
-void trocar_samples(int16_t *sampleA, int16_t *sampleB)
+/* Aumenta o volume para seu máximo sem causar clipping */
+void normalizar_volume(audio_t *audio)
 {
-    int16_t aux;
+    int16_t maior = abs(audio->dados[0]);
+    float level;
 
-    aux = *sampleA;
-    *sampleA = *sampleB;
-    *sampleB = aux;
+    /* Encontra o maior valor entre os samples */
+    for (int i = 1; i < audio->tamanho; i++)
+        if (abs(audio->dados[i]) > maior)
+            maior = abs(audio->dados[i]);
+
+    level = (float)VOLMAX / (float)maior;
+    alterar_volume(audio, level);
 }
-
-/* Reverte todo o audio, levando em conta o número de canais */
-void reverter_audio(audio_t *audio)
-{
-    int nrChannels = audio->fmt.NrChannels;     /*Nr de canais*/
-    int tamanho = audio->tamanho;               /*Tamanho do audio*/
-    int iteracoes = (tamanho / nrChannels) / 2; /*Quantidade de trocas por canal*/
-
-    for (int i = 0; i < nrChannels; i++)
-        for (int j = 0; j < iteracoes; j++)
-        {
-            /* Calcula os indices certos para funcionar com qualquer número de canais */
-            int index1 = i + (j * nrChannels);
-            int index2 = (tamanho - (nrChannels - i)) - (j * nrChannels);
-
-            trocar_samples(&audio->dados[index1], &audio->dados[index2]);
-        }
-}
-
-/* Os cálculos utilizados para achar os indices foram achados primeiramente utilizando um canal
- e depois montando tabelas verdades para 2 e 3 canais. Observando as tabelas foi possível encontrar
- uma relação matemática entre os indices corretos e o número de canais */
